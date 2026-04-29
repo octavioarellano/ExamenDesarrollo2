@@ -34,7 +34,7 @@ export function BusinessCardDocument({ data }: BusinessCardDocumentProps) {
       </div>
 
       <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f5f5f5', borderRadius: '6px', fontSize: '12px', color: '#666' }}>
-        <strong>Nota:</strong> Esta es una vista previa de la tarjeta de presentación. Al descargar se generará un archivo HTML optimizado.
+        <strong>Nota:</strong> Esta es una vista previa de la tarjeta de presentación. Al descargar se generará un archivo PowerPoint.
       </div>
     </div>
   );

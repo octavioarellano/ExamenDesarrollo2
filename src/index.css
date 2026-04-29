@@ -1,4 +1,52 @@
-/* ─── Reset ──────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   ABYSSAL BLUE — index.css
+   Deep-ocean aesthetic: bioluminescent accents on abyssal dark
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@300;400;500&family=Mada:wght@300;400;500;600&display=swap');
+
+/* ─── Design Tokens ──────────────────────────────────────────── */
+:root {
+  /* Depths */
+  --abyss:        #05070f;
+  --deep:         #080c18;
+  --trench:       #0c1225;
+  --midnight:     #101830;
+  --twilight:     #162040;
+
+  /* Bioluminescence */
+  --biolum-core:  #00d4ff;
+  --biolum-soft:  #0099cc;
+  --biolum-glow:  rgba(0, 212, 255, 0.18);
+  --biolum-halo:  rgba(0, 212, 255, 0.06);
+
+  /* Phosphorescence */
+  --phos-violet:  #7b5ea7;
+  --phos-indigo:  #4f6bff;
+  --phos-teal:    #00b4d8;
+
+  /* Surface text */
+  --text-surface: #dce8f5;
+  --text-mid:     #7f9ab8;
+  --text-deep:    #3d5470;
+  --text-abyss:   #1e2e44;
+
+  /* Borders */
+  --border-soft:  rgba(0, 212, 255, 0.08);
+  --border-mid:   rgba(0, 212, 255, 0.15);
+  --border-glow:  rgba(0, 212, 255, 0.35);
+
+  /* Typography */
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'Mada', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', 'Menlo', monospace;
+
+  /* Motion */
+  --ease-drift:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-surge:   cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Reset ──────────────────────────────────────────────────── */
 *,
 *::before,
 *::after {
@@ -7,58 +55,112 @@
   box-sizing: border-box;
 }
 
-/* ─── Base ───────────────────────────────────────────── */
+/* ─── Base ───────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
   font-size: 16px;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-body);
+  font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0f1117;
-  color: #e8eaf0;
-  line-height: 1.6;
+  background: var(--abyss);
+  color: var(--text-surface);
+  line-height: 1.7;
+  min-height: 100vh;
+
+  /* Animated deep-sea texture */
+  background-image:
+    radial-gradient(ellipse 80% 50% at 15% 80%, rgba(0, 212, 255, 0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 20%, rgba(79, 107, 255, 0.04) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 80% at 50% 50%, var(--deep) 0%, var(--abyss) 100%);
 }
 
-code {
-  font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
-  font-size: 0.875em;
-  background: #1c1f28;
-  color: #a5b4fc;
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+/* Floating particle field */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(0, 212, 255, 0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 34% 72%, rgba(0, 212, 255, 0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 56% 33%, rgba(79, 107, 255, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 78% 88%, rgba(0, 212, 255, 0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 91% 55%, rgba(0, 180, 216, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 23% 44%, rgba(123, 94, 167, 0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 67% 11%, rgba(0, 212, 255, 0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 95%, rgba(79, 107, 255, 0.4) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  animation: particleDrift 60s linear infinite;
+}
+
+/* Slow caustic light pattern */
+body::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg at 30% 60%,
+    transparent 0deg,
+    rgba(0, 212, 255, 0.015) 40deg,
+    transparent 80deg,
+    rgba(79, 107, 255, 0.02) 160deg,
+    transparent 220deg,
+    rgba(0, 180, 216, 0.01) 300deg,
+    transparent 360deg
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: causticSpin 90s linear infinite;
+}
+
+@keyframes particleDrift {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-20px); }
+}
+
+@keyframes causticSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 #root {
+  position: relative;
+  z-index: 1;
   min-height: 100vh;
 }
 
-/* ─── Scrollbar ──────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* ─── Code ───────────────────────────────────────────────────── */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  font-weight: 400;
+  background: rgba(0, 212, 255, 0.07);
+  color: var(--biolum-core);
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid var(--border-soft);
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
 }
 
-::-webkit-scrollbar-track {
-  background: #1c1f28;
-  border-left: 1px solid rgba(255, 255, 255, 0.04);
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: var(--deep); }
+::-webkit-scrollbar-thumb  {
+  background: linear-gradient(180deg, var(--biolum-soft), var(--phos-indigo));
+  border-radius: 3px;
+  box-shadow: 0 0 8px var(--biolum-glow);
 }
+::-webkit-scrollbar-thumb:hover { background: var(--biolum-core); }
+::-webkit-scrollbar-corner { background: var(--deep); }
 
-::-webkit-scrollbar-thumb {
-  background: #2e3245;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #4f46e5;
-}
-
-::-webkit-scrollbar-corner {
-  background: #1c1f28;
+/* ─── Selection ──────────────────────────────────────────────── */
+::selection {
+  background: rgba(0, 212, 255, 0.2);
+  color: #fff;
 }

@@ -12,9 +12,11 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [documentType, setDocumentType] = useState<DocumentType>('cv');
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleFormSubmit = (data: PersonalInfo) => {
     setPersonalInfo(data);
+    setIsEditing(false);
   };
 
   const handleGenerateDocument = (type: DocumentType) => {
@@ -46,13 +48,13 @@ function App() {
     <div className="app">
       <header className="app-header">
         <h1>Generador de Documentos Personales</h1>
-        <p>Captura tu información y genera profesionales documentos</p>
+        <p>Captura tu información y tal</p>
       </header>
 
       <main className="app-main">
         <div className="container">
-          {!personalInfo ? (
-            <PersonalForm onSubmit={handleFormSubmit} />
+          {!personalInfo || isEditing ? (
+            <PersonalForm onSubmit={handleFormSubmit} initialData={isEditing ? personalInfo : undefined} />
           ) : (
             <div className="document-section">
               <div className="info-display">
@@ -65,7 +67,7 @@ function App() {
                 </div>
                 <button
                   className="btn btn-secondary"
-                  onClick={() => setPersonalInfo(null)}
+                  onClick={() => setIsEditing(true)}
                 >
                   Editar Información
                 </button>

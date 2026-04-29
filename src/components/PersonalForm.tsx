@@ -5,24 +5,28 @@ import './PersonalForm.css';
 
 interface PersonalFormProps {
   onSubmit: (data: PersonalInfo) => void;
+  initialData?: PersonalInfo;
 }
 
-export function PersonalForm({ onSubmit }: PersonalFormProps) {
-  const [formData, setFormData] = useState<Partial<PersonalInfo>>({
-    nombre: '',
-    apellido: '',
-    email: '',
-    telefono: '',
-    direccion: '',
-    ciudad: '',
-    pais: '',
-    profesion: '',
-    experiencia: '',
-    educacion: '',
-    habilidades: '',
-  });
+export function PersonalForm({ onSubmit, initialData }: PersonalFormProps) {
+  const [formData, setFormData] = useState<Partial<PersonalInfo>>(
+    initialData || {
+      nombre: '',
+      apellido: '',
+      email: '',
+      telefono: '',
+      direccion: '',
+      ciudad: '',
+      pais: '',
+      profesion: '',
+      experiencia: '',
+      educacion: '',
+      habilidades: '',
+    }
+  );
 
   const [errors, setErrors] = useState<ValidationError[]>([]);
+  const [showImage, setShowImage] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -46,8 +50,13 @@ export function PersonalForm({ onSubmit }: PersonalFormProps) {
       return;
     }
 
-    // Si no hay errores, enviar datos
-    onSubmit(formData as PersonalInfo);
+    // Mostrar imagen por 1 segundo
+    setShowImage(true);
+    setTimeout(() => {
+      setShowImage(false);
+      // Después de ocultar la imagen, enviar datos
+      onSubmit(formData as PersonalInfo);
+    }, 1000);
   };
 
   const getFieldError = (field: string): string | null => {
@@ -251,6 +260,14 @@ export function PersonalForm({ onSubmit }: PersonalFormProps) {
       <button type="submit" className="btn btn-primary btn-large">
         Continuar →
       </button>
+
+      {showImage && (
+        <div className="image-overlay">
+          <div className="image-container">
+            <img src="/imagen.png" alt="Cargando..." />
+          </div>
+        </div>
+      )}
     </form>
   );
 }
